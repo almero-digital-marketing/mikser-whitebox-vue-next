@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/almero-digital-marketing/mikser-whitebox-vue.git"
+    "url": "git+https://github.com/almero-digital-marketing/mikser-whitebox-vue-next.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/almero-digital-marketing/mikser-whitebox-vue/issues"
+    "url": "https://github.com/almero-digital-marketing/mikser-whitebox-vue-next/issues"
   },
-  "homepage": "https://github.com/almero-digital-marketing/mikser-whitebox-vue#readme",
+  "homepage": "https://github.com/almero-digital-marketing/mikser-whitebox-vue-next#readme",
   "dependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.11.0",
