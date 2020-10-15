@@ -1,0 +1,26 @@
+{
+  "name": "mikser-whitebox-vue",
+  "version": "3.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almero-digital-marketing/mikser-whitebox-vue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/almero-digital-marketing/mikser-whitebox-vue/issues"
+  },
+  "homepage": "https://github.com/almero-digital-marketing/mikser-whitebox-vue#readme",
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.11.0",
+    "node-machine-id": "^1.1.12",
+    "vue": "^3.0.0",
+    "vuex": "^4.0.0-0"
+  }
+}
