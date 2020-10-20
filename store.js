@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 let storageMap = {}
 
 export default async (mikser) => {
+	if (!mikser.store) return Promise.resolve()
 	mikser.store.registerModule('mikser', {
 		namespaced: true,
 		state: {
@@ -66,6 +67,7 @@ export default async (mikser) => {
 				window.whitebox.init('feed', (feed) => {
 					console.log('Feed loaded')
 					window.whitebox.emmiter.on('feed.change', (change) => {
+						console.log('Feed change', change)
 						commit('updateDocuments', change)
 					})
 					let data = {

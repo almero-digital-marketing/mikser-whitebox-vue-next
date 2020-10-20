@@ -62,7 +62,7 @@ export default (mikser) => {
 			href(href, lang) {
 				lang =
 					lang ||
-					(mikser.routes[this.$route.path] && mikser.routes[this.$route.path].lang) ||
+					this.$route && (mikser.routes[this.$route.path] && mikser.routes[this.$route.path].lang) ||
 					document.documentElement.lang ||
 					''
 				let hreflang = this.sitemap[lang]

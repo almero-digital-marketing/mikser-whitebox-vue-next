@@ -1,4 +1,8 @@
 export default async (mikser) => {
+	mikser.routes = {}
+	mikser.reverse = {}
+	if (!mikser.router) return Promise.resolve()
+
 	let components = {}
 	for (let route of mikser.router.options.routes) {
 		components[route.name] = route.component
@@ -21,8 +25,6 @@ export default async (mikser) => {
 		})
 	})
 
-	mikser.routes = {}
-	mikser.reverse = {}
 	return new Promise((resolve, reject) => {
 		window.whitebox.init('feed', (feed) => {
 			let data = {
