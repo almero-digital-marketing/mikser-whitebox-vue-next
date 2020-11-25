@@ -1,4 +1,5 @@
 const os = require('os')
+const path = require('path')
 const { machineIdSync } = require('node-machine-id')
 
 if (process.env.NODE_ENV == 'development') {
@@ -7,5 +8,15 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 module.exports = {
-    outputDir: 'out',
+	outputDir: 'out',
+    devServer: {
+		progress: false,
+		contentBase: [
+			path.join(process.cwd(), './public'), 
+			path.join(process.cwd(), './out')
+		],
+    },
+    css: {
+		sourceMap: true
+	}
 }
