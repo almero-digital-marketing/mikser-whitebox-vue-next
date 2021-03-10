@@ -1,12 +1,7 @@
-import mixin from './lib/mixin'
-import router from './lib/router'
-import store from './lib/store'
+export * from './lib/mikser'
 
-export default async (app, mikser) => {
-	mikser.config = Object.assign({}, mikser.config)
+import mikserMixin from './lib/mixin'
 
-	await router(mikser, mikser.router)
-	await store(mikser, mikser.store)
-	app.mixin(mixin(mikser))
-	return mikser
+export {
+	mikserMixin
 }

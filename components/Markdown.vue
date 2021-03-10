@@ -5,6 +5,7 @@
 import MarkdownIt from 'markdown-it'
 
 export default {
+	inject: ['documentRoutes', 'reverseRoutes', 'config'],
 	props: {
 		source: {
 			type: String,
@@ -17,22 +18,14 @@ export default {
 	},
 	computed: {
 		markdown() {
-			let lang =
-				this.lang ||
-				this.$route && (this.mikser.routes[this.$route.path] && this.mikser.routes[this.$route.path].lang) ||
-				document.documentElement.lang ||
-				''
 			let markdown = new MarkdownIt({
 				html: true,
 				breaks: true, 
 			})
-			this.mikser.config.markdown?.plugins.forEach(({ plugin, options }) => {
+			this.config.markdown?.plugins.forEach(({ plugin, options }) => {
 				markdown.use(plugin, options)
 			})
 			
-			var defaultRender = markdown.renderer.rules.link_open || function(tokens, idx, options, env, self) {
-				return self.renderToken(tokens, idx, options);
-			}
 			markdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 				const token = tokens[idx]
 				const hrefIndex = token.attrIndex('href')
@@ -48,6 +41,8 @@ export default {
 						} else {
 							tokens[idx].attrs[targetIndex][1] = '_blank'
 						}
+						tokens[idx].attrPush(['rel', 'noopener'])
+						
 						if (isPhone) {
 							const [phone, tag] = href.split('@')
 							tokens[idx].attrs[hrefIndex][1] = phone
@@ -68,18 +63,29 @@ export default {
 		},
 	},
 	mounted() {
-		for(let link of this.$el.querySelectorAll("a")) {
-			let href = decodeURI(link.getAttribute('href'))
-			const isPhone = /^tel:/.test(href)
-			if (isPhone) {
-				window.whitebox.init('voip', voip => {
-                    voip?.service.call(link)
-                })
-			}
-		}
+		this.voip()
+	},
+	updated() {
+		this.voip()
 	},
 	methods: {
+		voip() {
+			for(let link of this.$el.querySelectorAll("a")) {
+				let href = decodeURI(link.getAttribute('href'))
+				const isPhone = /^tel:/.test(href)
+				if (isPhone) {
+					window.whitebox.init('voip', voip => {
+						voip?.service.call(link)
+					})
+				}
+			}
+		},
 		routeLinks(e) {
+			let lang =
+				this.lang ||
+				this.$route && (this.documentRoutes[this.$route.path] && this.documentRoutes[this.$route.path].lang) ||
+				document.documentElement.lang ||
+				''
 			if (e.target.tagName == 'A') {
 				let href = decodeURI(e.target.getAttribute('href'))
 				if (/_blank/i.test(e.target.getAttribute('target'))) {
@@ -96,7 +102,7 @@ export default {
 				} else {
 					let reverse = this.mikser.reverse[href]
 					if (reverse) {
-						let route = reverse.find((record) => record.lang == this.lang)
+						let route = reverse.find((record) => record.lang == lang)
 						if (route) {
 							this.mikser.router.push(route.refId)
 							e.preventDefault()
