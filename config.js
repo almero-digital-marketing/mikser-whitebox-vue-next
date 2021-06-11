@@ -11,6 +11,7 @@ module.exports = {
 	outputDir: 'out',
     devServer: {
 		progress: false,
+		disableHostCheck: true,
 		contentBase: [
 			path.join(process.cwd(), './public'), 
 			path.join(process.cwd(), './out')
@@ -18,5 +19,13 @@ module.exports = {
     },
     css: {
 		sourceMap: true
+	},
+	configureWebpack: {
+		optimization: {
+			splitChunks: {
+				minSize: 10000,
+				maxSize: 250000,
+			}
+		}
 	}
 }
