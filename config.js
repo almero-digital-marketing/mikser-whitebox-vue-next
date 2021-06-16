@@ -2,6 +2,7 @@ const os = require('os')
 const path = require('path')
 const { machineIdSync } = require('node-machine-id')
 const Gate = require('./lib/gate')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 if (process.env.NODE_ENV == 'development') {
 	const machineId = machineIdSync() + '_' + os.hostname() + '_' + os.userInfo().username
@@ -33,6 +34,20 @@ module.exports = {
 				minSize: 10000,
 				maxSize: 250000,
 			}
-		}
-	}
+		},
+		plugins: [
+			new PreloadWebpackPlugin({
+				include: ['app', 'vendors'],
+				rel: 'preload',
+				as(entry) {
+					if (/\.css$/.test(entry)) return 'style'
+					if (/\.woff$/.test(entry)) return 'font'
+					if (/\.ttf$/.test(entry)) return 'font'
+					if (/\.png$/.test(entry)) return 'image'
+					if (/\.jpg$/.test(entry)) return 'image'
+					return 'script'
+				}
+			})
+		]
+	},
 }
