@@ -83,7 +83,7 @@ export default {
 		routeLinks(e) {
 			let lang =
 				this.lang ||
-				this.$route && (this.documentRoutes[this.$route.path] && this.documentRoutes[this.$route.path].lang) ||
+				this.$route && (this.documentRoutes[this.$route.path] && this.documentRoutes[this.$route.path].document.meta.lang) ||
 				document.documentElement.lang ||
 				''
 			if (e.target.tagName == 'A') {
@@ -102,7 +102,7 @@ export default {
 				} else {
 					let reverse = this.mikser.reverse[href]
 					if (reverse) {
-						let route = reverse.find((record) => record.lang == lang)
+						let route = reverse.find((record) => record.meta.lang == lang)
 						if (route) {
 							this.mikser.router.push(route.refId)
 							e.preventDefault()
