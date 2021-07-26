@@ -5,7 +5,7 @@
 import MarkdownIt from 'markdown-it'
 
 export default {
-	inject: ['documentRoutes', 'reverseRoutes', 'config'],
+	inject: ['domainConfig'],
 	props: {
 		source: {
 			type: String,
@@ -14,6 +14,10 @@ export default {
 		lang: {
 			type: String,
 			default: ''
+		},
+		plugins: {
+			type: Array,
+			default: []
 		}
 	},
 	computed: {
@@ -22,7 +26,7 @@ export default {
 				html: true,
 				breaks: true, 
 			})
-			this.config.markdown?.plugins.forEach(({ plugin, options }) => {
+			this.plugins.forEach(({ plugin, options }) => {
 				markdown.use(plugin, options)
 			})
 			
@@ -83,7 +87,7 @@ export default {
 		routeLinks(e) {
 			let lang =
 				this.lang ||
-				this.$route && (this.documentRoutes[this.$route.path] && this.documentRoutes[this.$route.path].document.meta.lang) ||
+				this.$route && (this.domainConfig.documentRoutes[this.$route.path] && this.domainConfig.documentRoutes[this.$route.path].document.meta.lang) ||
 				document.documentElement.lang ||
 				''
 			if (e.target.tagName == 'A') {
@@ -100,11 +104,11 @@ export default {
 						})
 					}
 				} else {
-					let reverse = this.mikser.reverse[href]
+					let reverse = this.domainConfig.reverseRoutes[href]
 					if (reverse) {
-						let route = reverse.find((record) => record.meta.lang == lang)
+						let route = reverse.find((documentRoute) => documentRoute.document.meta.lang == lang)
 						if (route) {
-							this.mikser.router.push(route.refId)
+							this.$router.push(route.refId)
 							e.preventDefault()
 						}
 					}
