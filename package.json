@@ -1,10 +1,18 @@
 {
   "name": "mikser-whitebox-vue",
-  "version": "4.6.4",
-  "main": "index.js",
+  "version": "5.0.18",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node esbuild.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
   },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "vite.config.js",
+    "vue.config.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/almero-digital-marketing/mikser-whitebox-vue-next.git"
@@ -25,12 +33,16 @@
     "node-machine-id": "^1.1.12",
     "preload-webpack-plugin": "^3.0.0-beta.4",
     "reconnect-net": "^1.1.1",
-    "vue": "^3.0.0",
+    "vite-plugin-environment": "^1.0.1",
+    "vue": "^3.2.1",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.0-0"
   },
   "directories": {
     "lib": "lib"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "esbuild": "^0.13.15"
+  }
 }
