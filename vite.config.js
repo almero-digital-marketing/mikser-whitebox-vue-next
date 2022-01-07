@@ -4,6 +4,7 @@ const environment = require('vite-plugin-environment').default
 const os = require('os')
 const { machineIdSync } = require('node-machine-id')
 const Gate = require('./lib/gate')
+const path = require('path')
 
 module.exports = (options, domainConfig) => {
     const machineId = machineIdSync() + '_' + os.hostname() + '_' + os.userInfo().username
@@ -33,6 +34,29 @@ module.exports = (options, domainConfig) => {
                     })
                 }
             }
-        ]
+        ],
+        build: {
+            sourcemap: false,
+            rollupOptions: {
+                output: {
+                    manualChunks: id => {
+                        if (id.includes('node_modules')) {
+                            let moduleName = id.split(path.sep).slice(id.split(path.sep).indexOf('node_modules') + 1)[0]
+                            for(let key in options.vendorChunks) {
+                                if (options.vendorChunks[key].indexOf(moduleName) > -1) return 'vendor-' + key
+                            }
+                            if (['vue', 'vue-router', 'vuex'].indexOf(moduleName) > -1) {
+                                return 'vendor-core';
+                            } else if (moduleName.includes('whitebox')) {
+                                return 'vendor-whitebox';
+                            } else if (moduleName.includes('vue')) {
+                                return 'vendor-vue';
+                            }
+                            return 'vendor';
+                        }
+                    }
+                },
+            },
+        }
     }
 } 
