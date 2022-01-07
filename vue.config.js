@@ -9,6 +9,8 @@ module.exports = (domainConfig) => {
 	if (process.env.NODE_ENV == 'development') {
 		const machineId = machineIdSync() + '_' + os.hostname() + '_' + os.userInfo().username
 		process.env.VUE_APP_WHITEBOX_CONTEXT = machineId
+	} else {
+		process.env.VUE_APP_WHITEBOX_CONTEXT = 'mikser'
 	}
 
 	return {

@@ -22,7 +22,7 @@ module.exports = (options, domainConfig) => {
             }),
             environment({
                 VUE_APP_WHITEBOX_DOMAIN: domainConfig.domain,
-                VUE_APP_WHITEBOX_CONTEXT: options.mode == 'development' ? machineId : undefined
+                VUE_APP_WHITEBOX_CONTEXT: options.mode == 'development' ? machineId : 'mikser'
             }),
             {
                 name: 'gate',
