@@ -21,9 +21,11 @@ module.exports = (options, domainConfig) => {
                 },
                 minify: true,
             }),
-            environment({
+            environment(options.mode == 'development' ? {
                 VUE_APP_WHITEBOX_DOMAIN: domainConfig.domain,
-                VUE_APP_WHITEBOX_CONTEXT: options.mode == 'development' ? machineId : 'mikser'
+                VUE_APP_WHITEBOX_CONTEXT: machineId
+            } : {
+                VUE_APP_WHITEBOX_DOMAIN: domainConfig.domain,
             }),
             {
                 name: 'gate',
@@ -36,6 +38,7 @@ module.exports = (options, domainConfig) => {
             }
         ],
         build: {
+            outDir: 'out',
             sourcemap: false,
             rollupOptions: {
                 output: {
@@ -45,9 +48,7 @@ module.exports = (options, domainConfig) => {
                             for(let key in options.vendorChunks) {
                                 if (options.vendorChunks[key].indexOf(moduleName) > -1) return 'vendor-' + key
                             }
-                            if (['vue', 'vue-router', 'vuex'].indexOf(moduleName) > -1) {
-                                return 'vendor-core';
-                            } else if (moduleName.includes('whitebox')) {
+                            if (moduleName.includes('whitebox')) {
                                 return 'vendor-whitebox';
                             } else if (moduleName.includes('vue')) {
                                 return 'vendor-vue';
