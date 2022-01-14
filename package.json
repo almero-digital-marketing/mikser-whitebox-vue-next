@@ -1,6 +1,6 @@
 {
   "name": "mikser-whitebox-vue",
-  "version": "5.0.29",
+  "version": "5.0.32",
   "scripts": {
     "build": "node esbuild.js",
     "test": "echo \"Error: no test specified\" && exit 1",
